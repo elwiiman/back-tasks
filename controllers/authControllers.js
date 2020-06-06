@@ -16,7 +16,7 @@ exports.authenticateUser = async (req, res) => {
     //Check if user is registered
     let user = await User.findOne({ email });
 
-    if (!user) return res.status(400).json("The user doesnt exist");
+    if (!user) return res.status(400).json({ msg: "The user doesnt exist" });
 
     //review password
     const correctPassword = await bcryptjs.compare(password, user.password);
@@ -47,5 +47,15 @@ exports.authenticateUser = async (req, res) => {
     );
   } catch {
     console.log(error);
+  }
+};
+
+exports.readAuthenticatedUser = async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id).select("-password");
+    res.json({ user });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("There was an error");
   }
 };
