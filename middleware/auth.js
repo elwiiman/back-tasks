@@ -9,7 +9,7 @@ module.exports = function (req, res, next) {
 
   //Review if there is token
   if (!token) {
-    res.status(401).json({ msg: "There is no token. Not valid permission" });
+    res.status(401).json({ msg: "Not valid permission" });
   }
 
   try {
